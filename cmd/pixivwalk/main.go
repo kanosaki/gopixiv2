@@ -3,13 +3,14 @@ package main
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/c-bata/go-prompt"
-	"github.com/sirupsen/logrus"
-	"go-pixiv"
-	"go-pixiv/api"
+	"gopixiv2"
+	"gopixiv2/api"
 	"log"
 	"os"
 	"strings"
+
+	"github.com/c-bata/go-prompt"
+	"github.com/sirupsen/logrus"
 )
 
 func main() {
