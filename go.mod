@@ -1,4 +1,4 @@
-module gopixiv2
+module github.com/kanosaki/gopixiv2
 
 require (
 	github.com/c-bata/go-prompt v0.2.3

@@ -3,8 +3,8 @@ package main
 import (
 	"encoding/json"
 	"fmt"
-	"gopixiv2"
-	"gopixiv2/api"
+	"github.com/kanosaki/gopixiv2"
+	"github.com/kanosaki/gopixiv2/api"
 	"log"
 	"os"
 	"strings"

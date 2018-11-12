@@ -3,9 +3,9 @@ package api
 import (
 	"context"
 	"fmt"
-	"gopixiv2"
-	"gopixiv2/api/v1"
-	"gopixiv2/api/v2"
+	"github.com/kanosaki/gopixiv2"
+	"github.com/kanosaki/gopixiv2/api/v1"
+	"github.com/kanosaki/gopixiv2/api/v2"
 	"strings"
 )
 

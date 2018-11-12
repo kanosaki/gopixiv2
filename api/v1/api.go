@@ -3,8 +3,8 @@ package v1
 import (
 	"context"
 	"fmt"
-	"gopixiv2"
-	"gopixiv2/common"
+	"github.com/kanosaki/gopixiv2"
+	"github.com/kanosaki/gopixiv2/common"
 	"strconv"
 )
 

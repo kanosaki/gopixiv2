@@ -4,7 +4,7 @@ import (
 	"context"
 	"fmt"
 	"github.com/google/go-querystring/query"
-	"gopixiv2"
+	"github.com/kanosaki/gopixiv2"
 )
 
 type Illust struct {
