@@ -3,7 +3,7 @@ package v2
 import (
 	"context"
 	"fmt"
-	"go-pixiv"
+	"gopixiv2"
 )
 
 type API struct {

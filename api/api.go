@@ -3,9 +3,9 @@ package api
 import (
 	"context"
 	"fmt"
-	"go-pixiv"
-	"go-pixiv/api/v1"
-	"go-pixiv/api/v2"
+	"gopixiv2"
+	"gopixiv2/api/v1"
+	"gopixiv2/api/v2"
 	"strings"
 )
 

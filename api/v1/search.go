@@ -3,7 +3,7 @@ package v1
 import (
 	"context"
 	"github.com/google/go-querystring/query"
-	"go-pixiv"
+	"gopixiv2"
 )
 
 type Search struct {

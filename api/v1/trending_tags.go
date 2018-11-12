@@ -3,7 +3,7 @@ package v1
 import (
 	"context"
 	"encoding/json"
-	"go-pixiv"
+	"gopixiv2"
 )
 
 type TrendingTags struct {
