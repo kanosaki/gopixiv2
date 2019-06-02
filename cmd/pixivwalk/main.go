@@ -3,11 +3,12 @@ package main
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/kanosaki/gopixiv2"
-	"github.com/kanosaki/gopixiv2/api"
 	"log"
 	"os"
 	"strings"
+
+	"github.com/kanosaki/gopixiv2"
+	"github.com/kanosaki/gopixiv2/api"
 
 	"github.com/c-bata/go-prompt"
 	"github.com/sirupsen/logrus"

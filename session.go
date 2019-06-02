@@ -30,7 +30,7 @@ type OAuthSession struct {
 	Limiter  *rate.Limiter
 }
 
-func NewOAuthClient(auth *AuthConfig) (*OAuthSession, error) {
+func NewOAuthClient(auth *AuthConfig, opts ...OAuthClientOption) (*OAuthSession, error) {
 	config := &oauth2.Config{
 		ClientID:     auth.ClientID,
 		ClientSecret: auth.ClientSecret,
@@ -46,11 +46,17 @@ func NewOAuthClient(auth *AuthConfig) (*OAuthSession, error) {
 		auth:   auth,
 		ctx:    ctx,
 	}
-	return &OAuthSession{
+	sess := &OAuthSession{
 		client:   oauth2.NewClient(ctx, ts),
 		Endpoint: DefaultAPIEndpoint,
 		Limiter:  rate.NewLimiter(rate.Every(DefaultRateLimitEvery), DefaultRateLimitBurst),
-	}, nil
+	}
+	for _, opt := range opts {
+		if err := opt(sess); err != nil {
+			return nil, err
+		}
+	}
+	return sess, nil
 }
 
 func (s *OAuthSession) Post(ctx context.Context, base, query, contentType string, body io.Reader) (*http.Response, error) {
