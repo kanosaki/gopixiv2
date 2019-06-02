@@ -22,11 +22,10 @@ func (c *CachedTokenSource) Token() (*pixiv_oauth2.Token, error) {
 	if err == nil {
 		ret := &pixiv_oauth2.Token{}
 		dec := json.NewDecoder(rf)
-		if err := dec.Decode(ret); err != nil {
-			if ret.Valid() { // return only if token is valid
-				rf.Close()
-				return ret, nil
-			}
+		err := dec.Decode(ret)
+		if err != nil && ret.Valid() {
+			rf.Close()
+			return ret, nil
 		} else {
 			log.Printf("failed to parse token from cache(%s): %v", c.cachePath, err)
 		}
