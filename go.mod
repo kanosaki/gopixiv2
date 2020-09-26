@@ -18,3 +18,5 @@ require (
 	golang.org/x/time v0.0.0-20180412165947-fbb02b2291d2
 	google.golang.org/appengine v1.3.0 // indirect
 )
+
+go 1.13

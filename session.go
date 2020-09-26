@@ -2,6 +2,8 @@ package pixiv
 
 import (
 	"context"
+	"crypto/md5"
+	"encoding/hex"
 	"fmt"
 	"io"
 	"net/http"
@@ -40,7 +42,12 @@ func NewOAuthClient(auth *AuthConfig) (*OAuthSession, error) {
 			TokenURL: "https://oauth.secure.pixiv.net/auth/token",
 		},
 	}
-	ctx := context.Background()
+	ctx := context.WithValue(context.Background(), oauth2.HTTPClient, &http.Client{
+		Transport: &apiTransport{
+			upstream:        http.DefaultTransport,
+			signatureSecret: auth.SignatureSecret,
+		},
+	})
 	ts := &OAuthTokenSource{
 		config: config,
 		auth:   auth,
@@ -78,10 +85,11 @@ func (s *OAuthSession) Get(ctx context.Context, base, query string) (*http.Respo
 }
 
 type AuthConfig struct {
-	ClientID     string `json:"client_id"`
-	ClientSecret string `json:"client_secret"`
-	Username     string `json:"username"`
-	Password     string `json:"password"`
+	ClientID        string `json:"client_id"`
+	ClientSecret    string `json:"client_secret"`
+	Username        string `json:"username"`
+	Password        string `json:"password"`
+	SignatureSecret string `json:"signature_secret"`
 }
 
 type OAuthTokenSource struct {
@@ -92,4 +100,24 @@ type OAuthTokenSource struct {
 
 func (o *OAuthTokenSource) Token() (*oauth2.Token, error) {
 	return o.config.PasswordCredentialsToken(o.ctx, o.auth.Username, o.auth.Password)
+}
+
+type apiTransport struct {
+	signatureSecret string
+	upstream        http.RoundTripper
+}
+
+func (a *apiTransport) RoundTrip(r *http.Request) (*http.Response, error) {
+	timeString, hash := computeSignature(a.signatureSecret, time.Now())
+	r.Header.Set("User-Agent", "PixivIOSApp/7.8.19 (iOS 13.3.1; iPhone11,2)")
+	r.Header.Set("X-Client-Time", timeString)
+	r.Header.Set("X-Client-Hash", hash)
+	return a.upstream.RoundTrip(r)
+}
+
+func computeSignature(secret string, t time.Time) (string, string) {
+	timeString := t.Format(time.RFC3339)
+	hashContent := timeString + secret
+	hash := md5.Sum([]byte(hashContent))
+	return timeString, hex.EncodeToString(hash[:])
 }
